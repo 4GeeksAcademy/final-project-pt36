@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db
+from api.models import db, User, Muestra
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -62,6 +62,62 @@ def serve_any_other_file(path):
     response = send_from_directory(static_file_dir, path)
     response.cache_control.max_age = 0 # avoid cache memory
     return response
+
+@app.route('/user', methods=['GET'])
+def handle_hello():
+    users = User.query.all()
+    result = []
+    for user in users:
+        result.append({
+            "id": user.id,
+            "name": user.name,
+            "last_name": user.last_name,
+            "rut": user.rut,
+            "email": user.email,
+            "rol": user.rol
+        })
+    return jsonify(result)
+
+
+@app.route('/user', methods=['POST'])
+def create_user():
+    data = request.json
+
+    user = User(
+        name=data['name'],
+        last_name=data['last_name'],
+        rut=data['rut'],
+        email=data['email'],
+        rol=data['rol'],
+        password=data['password']
+    )
+
+    db.session.add(user)
+    db.session.commit()
+
+    return jsonify({'message': 'Usuario creado correctamente'})
+
+
+@app.route('/muestra', methods=['POST'])
+def create_muestra():
+    data = request.json
+
+    muestra = Muestra(
+        project_name=data['project_name'],
+        ubication=data['ubication'],
+        ubication_image=data['ubication_image'],
+        area=data['area'],
+        specimen=data['specimen'],
+        quality_specimen=data['quality_specimen'],
+        image_specimen=data['image_specimen'],
+        aditional_coments=data['aditional_coments']
+    )
+
+    db.session.add(muestra)
+    db.session.commit()
+
+    return jsonify({'message': 'Muestra  creada correctamente'})
+
 
 
 # this only runs if `$ python src/main.py` is executed
