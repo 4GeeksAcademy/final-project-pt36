@@ -78,6 +78,12 @@ def handle_hello():
         })
     return jsonify(result)
 
+@app.route('/muestra', methods=['GET'])
+def get_muestra():
+    muestras = Muestra.query.all()    
+    result = list(map(lambda muestr:muestr.serialize(),muestras))
+    return jsonify(result)
+
 
 @app.route('/user', methods=['POST'])
 def create_user():
