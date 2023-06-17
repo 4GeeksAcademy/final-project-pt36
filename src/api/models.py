@@ -48,5 +48,5 @@ class Muestra(db.Model):
             "specimen": self.specimen,
             "quality_specimen": self.quality_specimen,
             "image_specimen": self.image_specimen,
-            "aditional_coments": self.aditional_coments
+            "aditional_coments": self.aditional_comments
     }
