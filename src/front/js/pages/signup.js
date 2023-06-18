@@ -1,83 +1,137 @@
 import React from "react";
+import { useForm } from "../../hooks/useform";
+
 
 export const Signup = () =>  {
 
+    const [inputValues, handleInputChange] = useForm({
+        name: "",
+        lastname: "",
+        rut: "",
+        email: "",
+        rol: "",
+        password: "",
+        password2: ""
+    })
+
+    const {name, lastname, rut, email, rol, password, password2 } = inputValues;
+
+    const createUserRequest = async () => {
+            try {
+                await fetch(
+                  "https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/signup",
+                  {
+                    method: "POST",
+                    body: JSON.stringify({
+                        name: name,
+                        last_name: lastname,
+                        rut: rut,
+                        email: email,
+                        rol: rol,
+                        password: password
+                    }),
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                );
+              } catch (error) {
+                console.log("error", error);
+              };
+            }
+
+
     return (
         <>
-            <form class="row g-3">
-                <div class="col-md-4">
-                    <label for="validationServer01" class="form-label">First name</label>
-                    <input type="text" class="form-control is-valid" id="validationServer01" value="Mark" required />
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="validationServer02" class="form-label">Last name</label>
-                    <input type="text" class="form-control is-valid" id="validationServer02" required />
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="validationServerUsername" class="form-label">R.U.T</label>
-                    <div class="input-group has-validation">
-                        <input type="text" class="form-control is-invalid" id="validationServerUsername" aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback" required />
-                        <div id="validationServerUsernameFeedback" class="invalid-feedback">
-                            Enter your R.U.T
+            <section className="vh-100" style={{backgroundColor: "#eee"}}>
+                <div className="container h-100">
+                    <div className="row d-flex justify-content-center align-items-center h-100">
+                        <div className="col-lg-12 col-xl-11">
+                            <div className="card text-black" style={{borderRadius: "25px"}}>
+                                <div className="card-body p-md-5">
+                                    <div className="row justify-content-center">
+                                        <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                                            <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+
+                                            <form className="mx-1 mx-md-4">
+
+                                                <div className="d-flex flex-row align-items-center mb-4">
+                                                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
+                                                    <div className="form-outline flex-fill mb-0">
+                                                        <input type="text" name="name" id="form3Example1c" className="form-control" value={name} onChange={handleInputChange}/>
+                                                        <label className="form-label" for="form3Example1c">Your Name</label>
+                                                    </div>
+                                                </div>
+
+                                                <div className="d-flex flex-row align-items-center mb-4">
+                                                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
+                                                    <div className="form-outline flex-fill mb-0">
+                                                        <input type="text" name="lastname" id="form3Example1c" className="form-control" value={lastname} onChange={handleInputChange}/>
+                                                        <label className="form-label" for="form3Example1c">Last Name</label>
+                                                    </div>
+                                                </div>
+
+                                                <div className="d-flex flex-row align-items-center mb-4">
+                                                    <i classNameName="fa-thin fa-user"></i>
+                                                    <div className="form-outline flex-fill mb-0">
+                                                        <input type="text" name="rut" id="form3Example1c" className="form-control" value={rut} onChange={handleInputChange} />
+                                                        <label className="form-label" for="form3Example1c">R.U.T</label>
+                                                    </div>
+                                                </div>
+
+                                                <div className="d-flex flex-row justify-content-center align-items-center mb-4">
+                                                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
+                                                    <div className="form-outline flex-fill mb-0">
+                                                        <input type="text" name="rol" id="form3Example1c" className="form-control" value={rol} onChange={handleInputChange} />
+                                                        <label className="form-label" for="form3Example1c">Rol</label>
+                                                    </div>
+                                                </div>
+
+                                                <div className="d-flex flex-row align-items-center mb-4">
+                                                    <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                                    <div className="form-outline flex-fill mb-0">
+                                                        <input type="email" name="email" id="form3Example3c" className="form-control" value={email} onChange={handleInputChange} />
+                                                        <label className="form-label" for="form3Example3c">Your Email</label>
+                                                    </div>
+                                                </div>
+
+                                                <div className="d-flex flex-row align-items-center mb-4">
+                                                    <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
+                                                    <div className="form-outline flex-fill mb-0">
+                                                        <input type="password" name="password" id="form3Example4c" className="form-control" value={password} onChange={handleInputChange}/>
+                                                        <label className="form-label" for="form3Example4c">Password</label>
+                                                    </div>
+                                                </div>
+
+                                                <div className="d-flex flex-row align-items-center mb-4">
+                                                    <i className="fas fa-key fa-lg me-3 fa-fw"></i>
+                                                    <div className="form-outline flex-fill mb-0">
+                                                        <input type="password" name="password2" id="form3Example4cd" className="form-control" value={password2} onChange={handleInputChange} />
+                                                        <label className="form-label" for="form3Example4cd">Repeat your password</label>
+                                                    </div>
+                                                </div>
+                                
+                                                <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                                    <button type="button" className="btn btn-primary btn-lg" onClick={createUserRequest}>Register</button>
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+                                        <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                                                className="img-fluid" alt="Sample image" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="validationServer03" class="form-label">Email</label>
-                    <input type="text" class="form-control is-invalid" id="validationServer03" aria-describedby="validationServer03Feedback" required />
-                    <div id="validationServer03Feedback" class="invalid-feedback">
-                        Please provide a valid email.
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <label for="validationServer04" class="form-label">Rol</label>
-                    <select class="form-select is-invalid" id="validationServer04" aria-describedby="validationServer04Feedback" required>
-                        <option selected disabled value="">Choose...</option>
-                        <option>1</option>
-                        <option>2</option>
-                    </select>
-                    <div id="validationServer04Feedback" class="invalid-feedback">
-                        Please select a valid role.
-                    </div>
-                </div>
-                <div className="row">
-                <div class="col-md-4">
-                    <label for="validationServer01" class="form-label">Password</label>
-                    <input type="text" class="form-control is-valid" id="validationServer01" value="Mark" required />
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="validationServer02" class="form-label">Confirm Password</label>
-                    <input type="text" class="form-control is-valid" id="validationServer02" required />
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                </div>
-               
-                <div class="col-12">
-                    <div class="form-check">
-                        <input class="form-check-input is-invalid" type="checkbox" value="" id="invalidCheck3" aria-describedby="invalidCheck3Feedback" required />
-                        <label class="form-check-label" for="invalidCheck3">
-                            Agree to terms and conditions
-                        </label>
-                        <div id="invalidCheck3Feedback" class="invalid-feedback">
-                            You must agree before submitting.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-primary" type="submit">Submit form</button>
-                </div>
-            </form>
+            </section>
         </>
 
     )
