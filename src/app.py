@@ -104,6 +104,60 @@ def handle_hello():
         })
     return jsonify(result)
 
+#Get muestras
+@app.route('/muestra', methods=['GET'])
+def get_muestra():
+    muestras = Muestra.query.all()
+    result = list(map(lambda muestr:muestr.serialize(),muestras))
+    return jsonify(result)
+
+#Get Users por mail
+@app.route('/user/<string:email>', methods=['GET'])
+def get_user_by_email(email):
+    user = User.query.filter_by(email=email).first()
+    if user is None:
+        return jsonify({'message': 'Usuario no encontrado'}), 404
+    return jsonify(user.serialize())
+
+@app.route('/muestra/<string:project_name>', methods=['GET'])
+def get_muestras_by_proyecto():
+    proyecto = request.args.get('proyecto')
+    # Verificar si se proporcionó un proyecto válido
+    if not proyecto:
+        return jsonify({'message': 'El parámetro "proyecto" es requerido'}), 400
+    # Buscar las muestras relacionadas con el proyecto
+    muestras = Muestra.query.filter_by(project_name=proyecto).all()
+    if not muestras:
+        return jsonify({'message': 'No se encontraron muestras para el proyecto especificado'}), 404
+    # Serializar las muestras y devolver la respuesta
+    serialized_muestras = [muestra.serialize() for muestra in muestras]
+    return jsonify(serialized_muestras)
+
+#Get users por Rol
+@app.route('/user/rol/<string:rol>', methods=['GET'])
+def get_users_by_role(rol):
+    users = User.query.filter_by(rol=rol).all()
+    if len(users) == 0:
+        return jsonify({'message': 'No se encontraron usuarios con ese rol'}), 404
+    serialized_users = [user.serialize() for user in users]
+    return jsonify(serialized_users)
+
+#Agregar nuevos usuarios
+@app.route('/user', methods=['PUT'])
+def create_user():
+    data = request.json
+    user = User(
+        name=data['name'],
+        last_name=data['last_name'],
+        rut=data['rut'],
+        email=data['email'],
+        rol=data['rol'],
+        password=data['password']
+    )
+    db.session.add(user)
+    db.session.commit()
+    return jsonify({'message': 'Usuario creado correctamente'})
+
 @app.route('/muestra', methods=['GET'])
 def get_muestra():
     muestras = Muestra.query.all()    
@@ -173,6 +227,29 @@ def create_muestra():
 
     return jsonify({'message': 'Muestra  creada correctamente'})
 
+
+#Delete usuario por id
+@app.route('/user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    # Buscar el usuario por su ID
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify({'message': 'Usuario no encontrado'}), 404
+    # Eliminar el usuario de la base de datos
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({'message': 'Usuario eliminado correctamente'})
+#Delete muestra por id
+@app.route('/muestra/<int:muestra_id>', methods=['DELETE'])
+def delete_muestra(muestra_id):
+    # Buscar la muestra por su ID
+    muestra = Muestra.query.get(muestra_id)
+    if muestra is None:
+        return jsonify({'message': 'Muestra no encontrada'}), 404
+    # Eliminar la muestra de la base de datos
+    db.session.delete(muestra)
+    db.session.commit()
+    return jsonify({'message': 'Muestra eliminada correctamente'})
 
 
 # this only runs if `$ python src/main.py` is executed
