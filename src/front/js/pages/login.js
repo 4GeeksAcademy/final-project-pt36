@@ -1,7 +1,36 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useForm } from "../../hooks/useform";
 
 export const Login = () => {
+
     
+    const [inputValues, handleInputChange] = useForm({
+        email: "",
+        password: ""
+    })
+
+    const {email, password} = inputValues;
+
+    const loginUserRequest = async () => {
+        try {
+            await fetch(
+              "https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/login",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+          } catch (error) {
+            console.log("error", error);
+          };
+        }
     return (
         <section className="vh-100" style={{ backgroundColor: "green" }}>
             <div className="container py-5 h-100">
@@ -27,21 +56,27 @@ export const Login = () => {
 
                                             <div className="form-outline mb-4">
                                                 <input type="email" id="form2Example17" className="form-control form-control-lg" />
-                                                <label className="form-label" for="form2Example17">Email address</label>
+                                                <label className="form-label" for="form2Example17" value={email} onChange={handleInputChange}>Email address</label>
                                             </div>
 
                                             <div className="form-outline mb-4">
                                                 <input type="password" id="form2Example27" className="form-control form-control-lg" />
-                                                <label className="form-label" for="form2Example27">Password</label>
+                                                <label className="form-label" for="form2Example27" value={password} onChange={handleInputChange}>Password</label>
                                             </div>
 
                                             <div className="pt-1 mb-4">
-                                                <button className="btn btn-dark btn-lg btn-block" type="button">Login</button>
+                                                <button className="btn btn-dark btn-lg btn-block" type="button" onClick={loginUserRequest}>Login</button>
                                             </div>
-
+                                                
                                             <a className="small text-muted" href="#!">Forgot password?</a>
-                                            <p className="mb-5 pb-lg-2" style={{color: "#393f81"}}>Don't have an account? <a href="#!"
-                                                style={{color: "#393f81"}}>Register here</a></p>
+                                            
+                                            <p className="mb-5 pb-lg-2" style={{color: "#393f81"}}>Don't have an account?
+                                            <Link to="/signup">
+                                             <a href="#!"
+                                                style={{color: "#393f81"}}>Register here</a>
+                                            </Link>
+                                            </p>
+                                          
                                             <a href="#!" className="small text-muted">Terms of use.</a>
                                             <a href="#!" className="small text-muted">Privacy policy</a>
                                         </form>

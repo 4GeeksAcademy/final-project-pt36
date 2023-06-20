@@ -4,5 +4,5 @@ export const Dashboard = () => {
 
 
 
-    return 
+    return <>welcome to you Dashboard</>
 }

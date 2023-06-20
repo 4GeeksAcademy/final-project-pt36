@@ -10,6 +10,8 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     rol =  db.Column(db.String(20), unique=False, nullable=False)
     password = db.Column(db.String(200), unique=False, nullable=False)
+
+    muestras = db.relationship('Muestra', backref='user', lazy=True)
     
 
     def __repr__(self):
@@ -36,7 +38,8 @@ class Muestra(db.Model):
     specimen = db.Column(db.String(80), unique=False, nullable=False)
     quality_specimen = db.Column(db.String(80), unique=False, nullable=False)
     image_specimen= db.Column(db.String(80), unique=False, nullable=False)
-    aditional_coments = db.Column(db.String(80), unique=False, nullable=False)
+    aditional_coments = db.Column(db.String(90), unique=False, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def serialize(self):
         return {
@@ -48,5 +51,5 @@ class Muestra(db.Model):
             "specimen": self.specimen,
             "quality_specimen": self.quality_specimen,
             "image_specimen": self.image_specimen,
-            "aditional_coments": self.aditional_comments
+            "aditional_coments": self.aditional_coments
     }
