@@ -104,6 +104,14 @@ def handle_hello():
         })
     return jsonify(result)
 
+@app.route('/user/<string:email>', methods=['GET'])
+def get_user_by_email(email):
+    user = User.query.filter_by(email=email).first()
+    if user is None:
+        return jsonify({'message': 'Usuario no encontrado'}), 404
+
+    return jsonify(user.serialize())
+
 @app.route('/muestra', methods=['GET'])
 def get_muestra():
     muestras = Muestra.query.all()    
@@ -148,11 +156,31 @@ def handle_login():
    
    if check_password_hash(user.password, data['password']):
        auth_token = encode_auth_token(user.id)
+ 
        return jsonify(auth_token=auth_token)
    else:
        return jsonify(message='Wrong credentials'), 401
 
 
+@app.route('/dashboard', methods=['GET'])
+def dashboard():
+
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        auth_token = auth_header.split(" ")[1]
+    else:
+        return jsonify(message= 'User not found'), 401
+    
+    #Decode the token
+    user_id = decode_auth_token(auth_token)
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return jsonify(message='User not found'), 404
+
+    return jsonify(message= 'Successfully accessed protected route!', user=user.serelize()) 
+
+
+   
 @app.route('/muestra', methods=['POST'])
 def create_muestra():
     data = request.json
@@ -175,7 +203,7 @@ def create_muestra():
         specimen=data['specimen'],
         quality_specimen=data['quality_specimen'],
         image_specimen=data['image_specimen'],
-        aditional_coments=data['aditional_coments']
+        aditional_comments=data['aditional_comments']
     )
     db.session.add(muestra)
     db.session.commit()

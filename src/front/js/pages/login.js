@@ -1,38 +1,27 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useform";
+import { Context } from "../store/appContext";
+
 
 export const Login = () => {
+    const { store, actions } = useContext(Context)
 
-    
     const [inputValues, handleInputChange] = useForm({
         email: "",
         password: ""
     })
 
-    const {email, password} = inputValues;
+    const [error, setError]= useState("");
 
+    const {email, password} = inputValues;
+    const navigate = useNavigate()
+    
     const loginUserRequest = async () => {
-        try {
-            await fetch(
-              "https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/login",
-              {
-                method: "POST",
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                }),
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              }
-            );
-          } catch (error) {
-            console.log("error", error);
-          };
+        actions.login({email, password, navigate})
         }
     return (
-        <section className="vh-100" style={{ backgroundColor: "green" }}>
+        <section className="vh-100" style={{ backgroundColor: "green" }} >
             <div className="container py-5 h-100">
                 <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col col-xl-10">
@@ -55,15 +44,15 @@ export const Login = () => {
                                             <h5 className="fw-normal mb-3 pb-3" style={{letterSpacing: "1px"}}>Sign into your account</h5>
 
                                             <div className="form-outline mb-4">
-                                                <input type="email" id="form2Example17" className="form-control form-control-lg" />
-                                                <label className="form-label" for="form2Example17" value={email} onChange={handleInputChange}>Email address</label>
+                                                <input type="email" id="form2Example17" className="form-control form-control-lg" name="email" value={email} onChange={handleInputChange}/>
+                                                <label className="form-label" for="form2Example17" >Email address</label>
                                             </div>
 
                                             <div className="form-outline mb-4">
-                                                <input type="password" id="form2Example27" className="form-control form-control-lg" />
-                                                <label className="form-label" for="form2Example27" value={password} onChange={handleInputChange}>Password</label>
+                                                <input type="password" id="form2Example27" className="form-control form-control-lg" name="password" value={password} onChange={handleInputChange} />
+                                                <label className="form-label" for="form2Example27" >Password</label>
                                             </div>
-
+                                            {error !== "" && <div>{error}</div> }
                                             <div className="pt-1 mb-4">
                                                 <button className="btn btn-dark btn-lg btn-block" type="button" onClick={loginUserRequest}>Login</button>
                                             </div>
@@ -88,6 +77,7 @@ export const Login = () => {
                     </div>
                 </div>
             </div>
+            
         </section>
     )
 
