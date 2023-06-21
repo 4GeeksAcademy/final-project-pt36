@@ -14,9 +14,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}, 
 			],
-			auth_token: "",
+			authToken: null,
 
-			user: []
+			users: []
 
 
 
@@ -42,7 +42,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					);
 					if (response.ok){
 						const data = await response.json()
-						setStore({auth_token: data.auth_token});
+						setStore({authToken: data.auth_token});
 						navigate("/dashboard")
 						return true
 					}
@@ -53,13 +53,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getUser: async()=>{
+				const store = getStore()
 				try{
-					const response = await fetch("https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/dashboard", {
-						headers: {Authorization:  `Bearer ${store.auth_token}`}
+					const response = await fetch("https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/user", {
+						headers: {Authorization:  `Bearer ${store.authToken}`}
 					  });
 					if (response.ok){
 						const data = await response.json();
-						setStore({user: data.user})
+						setStore({users: data.users})
 					}
 				}
 				catch(error){

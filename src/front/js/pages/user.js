@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from "react";
 import { Context } from "../store/appContext";
 
-export const Dashboard = () => {
+export const Dashboa = () => {
     const { store, actions } = useContext(Context);
 
     useEffect(()=>{
@@ -11,9 +11,9 @@ export const Dashboard = () => {
     return (
         <div>
         <ul>
-            {store.users.map((user1, i)=> (
+            {store.users.map((user, i)=> (
             <li key={i} className="list-group-item">
-                {user1.email}
+                {user.email}
             </li>
         ))}
         </ul>

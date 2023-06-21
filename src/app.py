@@ -58,7 +58,7 @@ def encode_auth_token(user_id):
 #Function to decode a token
 def decode_auth_token(auth_token):
     try:
-        payload = jwt.decode(payload, app.config['JWT_SECRET_KEY'], algorithm='HS256')
+        payload = jwt.decode(auth_token, app.config['JWT_SECRET_KEY'], algorithm='HS256')
         return payload['sub']
     except jwt.ExpiredSignatureError:
         return 'Token expired. Please log again'
@@ -90,19 +90,21 @@ def serve_any_other_file(path):
     return response
 
 @app.route('/user', methods=['GET'])
+
+
 def handle_hello():
+
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        auth_token = auth_header.split(" ")[1]
+    else:
+        return jsonify(message= 'User not found'), 401
+    
+    #Decode the token
+    response = decode_auth_token(auth_token)
     users = User.query.all()
-    result = []
-    for user in users:
-        result.append({
-            "id": user.id,
-            "name": user.name,
-            "last_name": user.last_name,
-            "rut": user.rut,
-            "email": user.email,
-            "rol": user.rol,
-        })
-    return jsonify(result)
+    user_list = [user.serialize() for user in users]
+    return jsonify(users= user_list)
 
 @app.route('/user/<string:email>', methods=['GET'])
 def get_user_by_email(email):
@@ -172,12 +174,10 @@ def dashboard():
         return jsonify(message= 'User not found'), 401
     
     #Decode the token
-    user_id = decode_auth_token(auth_token)
-    user = User.query.filter_by(id=user_id).first()
-    if not user:
-        return jsonify(message='User not found'), 404
+    response = decode_auth_token(auth_token)
+  
 
-    return jsonify(message= 'Successfully accessed protected route!', user=user.serelize()) 
+    return jsonify(message= response) 
 
 
    
