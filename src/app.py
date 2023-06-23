@@ -46,25 +46,39 @@ setup_commands(app)
 #Function to encode a token
 def encode_auth_token(user_id):
     try:
-        payload ={
+        payload = {
             'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),
             'iat': datetime.datetime.utcnow(),
             'sub': user_id
         }
-        return jwt.encode(payload, app.config['JWT_SECRET_KEY'], algorithm='HS256')
+        jwt_secret_key = app.config['JWT_SECRET_KEY']
+        return jwt.encode(payload, jwt_secret_key, algorithm='HS256')
     except Exception as e:
         return e
 
 #Function to decode a token
 def decode_auth_token(auth_token):
     try:
-        payload = jwt.decode(auth_token, app.config['JWT_SECRET_KEY'], algorithm='HS256')
+        jwt_secret_key = app.config['JWT_SECRET_KEY']
+        payload = jwt.decode(auth_token, jwt_secret_key, algorithm='HS256')
         return payload['sub']
     except jwt.ExpiredSignatureError:
-        return 'Token expired. Please log again'
+        return 'Token expired. Please log in again.'
     except jwt.InvalidTokenError:
-        return 'Invalid token. Please log again'
-
+        return 'Invalid token. Please log in again.'
+    
+def decode_auth_token(auth_token):
+    try:
+        jwt_secret_key = app.config['JWT_SECRET_KEY']
+        payload = jwt.decode(auth_token, jwt_secret_key, algorithms=['HS256'])
+        return payload['sub']
+    except jwt.ExpiredSignatureError:
+        # The token has expired
+        return 'Token expired. Please log in again.'
+    except jwt.InvalidTokenError:
+        # The token is invalid
+        return 'Invalid token. Please log in again.'
+    
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
 
@@ -90,29 +104,29 @@ def serve_any_other_file(path):
     return response
 
 @app.route('/user', methods=['GET'])
-
-
 def handle_hello():
 
     auth_header = request.headers.get('Authorization')
     if auth_header:
         auth_token = auth_header.split(" ")[1]
+        
     else:
-        return jsonify(message= 'User not found'), 401
+        return jsonify(message= 'Token us missing'), 401
     
     #Decode the token
     response = decode_auth_token(auth_token)
-    users = User.query.all()
-    user_list = [user.serialize() for user in users]
-    return jsonify(users= user_list)
+    useru = User.query.all()
+    user_list = [user.serialize() for user in useru]
+    return jsonify(useru= user_list)
+  
 
-@app.route('/user/<string:email>', methods=['GET'])
-def get_user_by_email(email):
-    user = User.query.filter_by(email=email).first()
-    if user is None:
+@app.route('/user/<string:id>', methods=['GET'])
+def get_user_by_email(id):
+    usere = User.query.filter_by(id=id).first()
+    if usere is None:
         return jsonify({'message': 'Usuario no encontrado'}), 404
 
-    return jsonify(user.serialize())
+    return jsonify(usere.serialize())
 
 @app.route('/muestra', methods=['GET'])
 def get_muestra():
@@ -158,26 +172,27 @@ def handle_login():
    
    if check_password_hash(user.password, data['password']):
        auth_token = encode_auth_token(user.id)
- 
-       return jsonify(auth_token=auth_token)
+       return jsonify(auth_token= auth_token)
    else:
        return jsonify(message='Wrong credentials'), 401
 
 
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
-
     auth_header = request.headers.get('Authorization')
     if auth_header:
         auth_token = auth_header.split(" ")[1]
     else:
-        return jsonify(message= 'User not found'), 401
-    
+        return jsonify(message= 'token missing'), 401
     #Decode the token
-    response = decode_auth_token(auth_token)
-  
+    id = decode_auth_token(auth_token)
 
-    return jsonify(message= response) 
+    user = User.query.filter_by(id=id).first()
+     
+    if not user:
+        return jsonify(message='user not found'), 404
+
+    return jsonify(user.serialize()) 
 
 
    
@@ -220,9 +235,6 @@ def delete_muestra(muestra_id):
     db.session.delete(muestra)
     db.session.commit()
     return jsonify({'message': 'Muestra eliminada correctamente'})
-
-
-
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

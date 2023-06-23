@@ -15,12 +15,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}, 
 			],
 			authToken: null,
-
-			users: []
-
-
-
-
+			user: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -49,28 +44,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 				  } catch (error) {
 					console.log(error);
 				  };
+				  return false
 			
 			},
 
 			getUser: async()=>{
 				const store = getStore()
 				try{
-					const response = await fetch("https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/user", {
+					const response = await fetch("https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/dashboard", {
 						headers: {Authorization:  `Bearer ${store.authToken}`}
 					  });
 					if (response.ok){
 						const data = await response.json();
-						setStore({users: data.users})
+						setStore({user: data})
 					}
 				}
 				catch(error){
 					console.log(error)
 				}
+				
 			},
 
 	
-
-
 
 
 

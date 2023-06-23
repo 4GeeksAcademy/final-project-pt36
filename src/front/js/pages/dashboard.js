@@ -1,22 +1,23 @@
 import React, {useContext, useEffect} from "react";
 import { Context } from "../store/appContext";
+import { adminDashboard } from "../component/adminDashboard"
+import { userDashboard } from "../component/userDashboard"
 
 export const Dashboard = () => {
     const { store, actions } = useContext(Context);
 
+   
+
     useEffect(()=>{
         actions.getUser();
-    }, [])
 
+    }, [])
+  
     return (
-        <div>
-        <ul>
-            {store.users.map((user1, i)=> (
-            <li key={i} className="list-group-item">
-                {user1.email}
-            </li>
-        ))}
-        </ul>
-        </div>
+        <>
+        {store.user !== null && store.user.rol === 1 && <adminDashboard user={store.user}/> }
+        {store.user !== null && store.user.rol === 2 && <userDashboard user={store.user} /> }
+        </>
+
         )
 }
