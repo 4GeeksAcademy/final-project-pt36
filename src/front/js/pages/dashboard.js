@@ -12,12 +12,14 @@ export const Dashboard = () => {
         let storageUSer = JSON.parse(localStorage.getItem("user"))
         if (storageUSer && user === null) { 
             setUser(() => storageUSer)
-        } else {actions.getUser();
+        } 
+        if (!storageUSer && user === null){
+            actions.getUser();
         setUser(store.user)
         }
-        console.log(storageUSer)
+    
 
-    }, [])
+    }, [user])
   
     return (
         <>

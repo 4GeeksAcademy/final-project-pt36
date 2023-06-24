@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useform";
 import { Context } from "../store/appContext";
@@ -6,6 +6,7 @@ import { Context } from "../store/appContext";
 
 export const Login = () => {
     const { store, actions } = useContext(Context)
+    
 
     const [inputValues, handleInputChange] = useForm({
         email: "",
@@ -20,6 +21,12 @@ export const Login = () => {
     const loginUserRequest = async () => {
         actions.login({email, password, navigate})
         }
+
+    useEffect(()=> {
+
+        const user = JSON.parse(localStorage.getItem("user"))
+        if (user) {navigate("/dashboard")}
+        }, [])
     return (
         <section className="vh-100" style={{ backgroundColor: "green" }} >
             <div className="container py-5 h-100">
@@ -61,7 +68,6 @@ export const Login = () => {
                                             
                                             <p className="mb-5 pb-lg-2" style={{color: "#393f81"}}>Don't have an account?
                                             <Link style={{color: "#393f81"}} to="/signup">
-                                
                                                 Register here
                                             </Link>
                                             </p>

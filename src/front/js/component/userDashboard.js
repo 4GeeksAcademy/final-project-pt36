@@ -27,7 +27,7 @@ export const UserDashboard = ({user}) => {
 	]
 	return (
 		
-			<secction>
+			<div>
 					<p>hola, {user.name}</p>
 				<div className="container" >
 					<div className="row align-items-cente">
@@ -47,7 +47,7 @@ export const UserDashboard = ({user}) => {
 
 				</div>
 
-			</secction>
+			</div>
     )
 
 }
