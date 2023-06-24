@@ -73,7 +73,7 @@ export const Signup = () =>  {
                                                 </div>
 
                                                 <div className="d-flex flex-row align-items-center mb-4">
-                                                    <i classNameName="fa-thin fa-user"></i>
+                                                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                                                     <div className="form-outline flex-fill mb-0">
                                                         <input type="text" name="rut" id="form3Example1c" className="form-control" value={rut} onChange={handleInputChange} />
                                                         <label className="form-label" for="form3Example1c">R.U.T</label>

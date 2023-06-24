@@ -45,12 +45,12 @@ export const Login = () => {
 
                                             <div className="form-outline mb-4">
                                                 <input type="email" id="form2Example17" className="form-control form-control-lg" name="email" value={email} onChange={handleInputChange}/>
-                                                <label className="form-label" for="form2Example17" >Email address</label>
+                                                <label className="form-label" >Email address</label>
                                             </div>
 
                                             <div className="form-outline mb-4">
                                                 <input type="password" id="form2Example27" className="form-control form-control-lg" name="password" value={password} onChange={handleInputChange} />
-                                                <label className="form-label" for="form2Example27" >Password</label>
+                                                <label className="form-label"  >Password</label>
                                             </div>
                                             {error !== "" && <div>{error}</div> }
                                             <div className="pt-1 mb-4">
@@ -60,9 +60,9 @@ export const Login = () => {
                                             <a className="small text-muted" href="#!">Forgot password?</a>
                                             
                                             <p className="mb-5 pb-lg-2" style={{color: "#393f81"}}>Don't have an account?
-                                            <Link to="/signup">
-                                             <a href="#!"
-                                                style={{color: "#393f81"}}>Register here</a>
+                                            <Link style={{color: "#393f81"}} to="/signup">
+                                
+                                                Register here
                                             </Link>
                                             </p>
                                           

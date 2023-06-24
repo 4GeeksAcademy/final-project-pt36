@@ -1,22 +1,28 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Context } from "../store/appContext";
-import { adminDashboard } from "../component/adminDashboard"
-import { userDashboard } from "../component/userDashboard"
+import { AdminDashboard } from "../component/adminDashboard";
+import { UserDashboard } from "../component/userDashboard"
 
 export const Dashboard = () => {
     const { store, actions } = useContext(Context);
-
+    const [ user, setUser ] = useState(null)
    
-
+    
     useEffect(()=>{
-        actions.getUser();
+        let storageUSer = JSON.parse(localStorage.getItem("user"))
+        if (storageUSer && user === null) { 
+            setUser(() => storageUSer)
+        } else {actions.getUser();
+        setUser(store.user)
+        }
+        console.log(storageUSer)
 
     }, [])
   
     return (
         <>
-        {store.user !== null && store.user.rol === 1 && <adminDashboard user={store.user}/> }
-        {store.user !== null && store.user.rol === 2 && <userDashboard user={store.user} /> }
+        {user !== null && user.rol === "1" && <AdminDashboard user={user} /> } 
+        {user !== null && user.rol === "2" && <UserDashboard user={user} /> }
         </>
 
         )
