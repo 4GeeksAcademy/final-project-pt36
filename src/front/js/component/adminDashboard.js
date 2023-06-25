@@ -30,10 +30,12 @@ export const AdminDashboard = ({user}) => {
 	return (
 		
 		
-			<div>
+			<div className="container">
+				<div>
 					<p>hola, {user.name}</p>
-				<div className="container" >
-					<div className="row align-items-center">
+				</div>
+				<div  >
+					<div className="row p-4 d-flex justify-content-center text-center">
 				{
 					data.map(({img, title, text, buttonText, url}, i )=>{
 						return (

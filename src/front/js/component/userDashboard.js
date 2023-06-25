@@ -32,28 +32,31 @@ export const UserDashboard = ({user}) => {
 	]
 	return (
 		
+		<div className="container">
 			<div>
-					<p>hola, {user.name}</p>
-				<div className="container" >
-					<div className="row align-items-cente">
-				{
-					data.map(({img, title, text, buttonText, url}, i )=>{
-						return (
-							<Cards 
-							key={i}
-							src={img}
-							title={title}
-							text={text}
-							buttonText={buttonText}
-							url={url}
-							/>
-						)
-					})}
-					</div>
-
-				</div>
-
+				<p>hola, {user.name}</p>
 			</div>
-    )
+			<div className="row  p-4 d-flex justify-content-center text-center">
+					{
+						data.map(({ img, title, text, buttonText, url }, i) => {
+							return (
+								
+								<Cards
+									key={i}
+									src={img}
+									title={title}
+									text={text}
+									buttonText={buttonText}
+									url={url}
+								/>
+							)
+						})}
+			
+			</div>
+
+		
+
+		</div>
+	)
 
 }
