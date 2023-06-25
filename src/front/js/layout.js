@@ -18,6 +18,9 @@ import { Footer } from "./component/footer";
 import { CreateMuestra } from "./pages/adminViews/createMuestra";
 import { ViewMuestras } from "./pages/adminViews/viewMuestras";
 import { ViewWorkers } from "./pages/adminViews/viewWorkers";
+import { UserGetMuestra } from "./pages/userViews/usergetmuestra";
+import { PendingTask } from "./pages/userViews/pendingtask";
+import { MakeMuestra } from "./pages/userViews/makemuestra";
 
 
 
@@ -45,6 +48,9 @@ const Layout = () => {
                         <Route element={<CreateMuestra />} path="/dashboard/create" />
                         <Route element={<ViewMuestras />} path="/dashboard/viewmuestras" />
                         <Route element={<ViewWorkers />} path="/dashboard/workers" />
+                        <Route element={<UserGetMuestra />} path="/dashboard/usergetmuestra" />
+                        <Route element={<PendingTask />} path="/dashboard/pendingtask" />
+                        <Route element={<MakeMuestra />} path="/dashboard/makemuestra" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

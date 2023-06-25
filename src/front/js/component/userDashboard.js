@@ -10,7 +10,7 @@ export const UserDashboard = ({user}) => {
 		title: "Relizar Muestras",
 		text:"Cumple con las muestras asignadas.", 
 		buttonText: "Realizar",
-		url:"/dashborad/makemuestra"
+		url:"/dashboard/makemuestra"
 
 
 		},
@@ -19,14 +19,14 @@ export const UserDashboard = ({user}) => {
         title: "Ver muestras",
 		text: "Edita y ve tus muestras",
 		buttonText: "Ver",
-		url:"/dashborad/viewmuestra"
+		url:"/dashboard/usergetmuestra"
 		},	
 		{ 
         img:"",
 		title: "Tareas Pendientes",
 		text:"Completa tus muestras", 
 		buttonText: "Completar",
-		url:"/dashborad/pendingtask"
+		url:"/dashboard/pendingtask"
 		},	
 			
 	]
@@ -37,7 +37,7 @@ export const UserDashboard = ({user}) => {
 				<div className="container" >
 					<div className="row align-items-cente">
 				{
-					data.map(({img, title, text, buttonText}, i )=>{
+					data.map(({img, title, text, buttonText, url}, i )=>{
 						return (
 							<Cards 
 							key={i}
