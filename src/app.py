@@ -224,6 +224,7 @@ def create_muestra():
     db.session.commit()
     return jsonify({'message': 'Muestra creada correctamente'})
 
+
 #Delete muestra por id
 @app.route('/muestra/<int:muestra_id>', methods=['DELETE'])
 def delete_muestra(muestra_id):
