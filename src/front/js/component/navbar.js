@@ -1,11 +1,11 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
+	const location = useLocation();
 	const navigate = useNavigate();
-
-	const user = JSON.parse(localStorage.getItem("user"))
-
+	console.log(location)
+	
 	const logout = () => {
 		localStorage.clear()
 		navigate("/login")
@@ -17,9 +17,7 @@ export const Navbar = () => {
 					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
 				</Link>
 				<div className="ml-auto">
-					{user && <button onClick={logout} className="btn btn-primary">Log Out</button>}
-					
-					
+					{location.pathname !== "/login" && <button onClick={logout} className="btn btn-primary">Log Out</button>}
 				</div>
 			</div>
 		</nav>

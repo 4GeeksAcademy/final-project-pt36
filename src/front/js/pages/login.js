@@ -9,8 +9,8 @@ export const Login = () => {
     
 
     const [inputValues, handleInputChange] = useForm({
-        email: "",
-        password: ""
+        email: "hector1@gmail.com",
+        password: "1234"
     })
 
     const [error, setError]= useState("");

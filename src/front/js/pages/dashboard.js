@@ -5,7 +5,7 @@ import { UserDashboard } from "../component/userDashboard"
 
 export const Dashboard = () => {
     const { store, actions } = useContext(Context);
-    const [ user, setUser ] = useState(null)
+    const [ user, setUser ] = useState(store.user)
    
     
     useEffect(()=>{
@@ -15,11 +15,11 @@ export const Dashboard = () => {
         } 
         if (!storageUSer && user === null){
             actions.getUser();
-        setUser(store.user)
+    
         }
     
+    }, [user , store.user])
 
-    }, [user])
   
     return (
         <>

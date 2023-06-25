@@ -10,6 +10,7 @@ export const UserDashboard = ({user}) => {
 		title: "Relizar Muestras",
 		text:"Cumple con las muestras asignadas.", 
 		buttonText: "Realizar",
+		
 		},
 		{ 
         img:"",
