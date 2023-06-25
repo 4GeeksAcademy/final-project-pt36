@@ -4,8 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 export const Navbar = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	console.log(location)
-	
+		
 	const logout = () => {
 		localStorage.clear()
 		navigate("/login")

@@ -10,19 +10,23 @@ export const UserDashboard = ({user}) => {
 		title: "Relizar Muestras",
 		text:"Cumple con las muestras asignadas.", 
 		buttonText: "Realizar",
-		
+		url:"/dashborad/makemuestra"
+
+
 		},
 		{ 
         img:"",
         title: "Ver muestras",
 		text: "Edita y ve tus muestras",
-		 buttonText: "Ver",
+		buttonText: "Ver",
+		url:"/dashborad/viewmuestra"
 		},	
 		{ 
         img:"",
 		title: "Tareas Pendientes",
 		text:"Completa tus muestras", 
 		buttonText: "Completar",
+		url:"/dashborad/pendingtask"
 		},	
 			
 	]
@@ -41,6 +45,7 @@ export const UserDashboard = ({user}) => {
 							title={title}
 							text={text}
 							buttonText={buttonText}
+							url={url}
 							/>
 						)
 					})}
