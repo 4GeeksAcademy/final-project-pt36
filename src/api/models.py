@@ -10,7 +10,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     rol =  db.Column(db.String(20), unique=False, nullable=False)
     password = db.Column(db.String(200), unique=False, nullable=False)
-
+    proyectos = db.relationship('Proyecto', backref='user', lazy=True)
     muestras = db.relationship('Muestra', backref='user', lazy=True)
     
 
@@ -25,7 +25,7 @@ class User(db.Model):
             "rut": self.rut,
             "email": self.email,
             "rol": self.rol,
-
+            "password": self.password
             # do not serialize the password, its a security breach
         }
     
@@ -40,7 +40,8 @@ class Muestra(db.Model):
     image_specimen= db.Column(db.String(80), unique=False, nullable=False)
     aditional_comments = db.Column(db.String(90), unique=False, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
+    proyecto_id = db.Column(db.Integer, db.ForeignKey('proyecto.id'), nullable=False)
+    
     def serialize(self):
         return {
             "id" : self.id,
@@ -53,3 +54,20 @@ class Muestra(db.Model):
             "image_specimen": self.image_specimen,
             "aditional_comments": self.aditional_comments
     }
+class Proyecto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), unique=False, nullable=False)
+    direction = db.Column(db.String(120), unique=False, nullable=False)
+    muestras = db.relationship('Muestra', backref='proyecto', lazy=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return '<Proyecto %r>' % self.name
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "direction": self.direction,
+            "user_id": self.user_id
+        }

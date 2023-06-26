@@ -193,8 +193,6 @@ def dashboard():
         return jsonify(message='user not found'), 404
 
     return jsonify(user.serialize()) 
-
-
    
 @app.route('/muestra', methods=['POST'])
 def create_muestra():
@@ -236,6 +234,15 @@ def delete_muestra(muestra_id):
     db.session.delete(muestra)
     db.session.commit()
     return jsonify({'message': 'Muestra eliminada correctamente'})
+
+#Delete USERS
+@app.route('/users', methods=['DELETE'])
+def delete_all_users():
+    # Eliminar todos los registros de la tabla User
+    User.query.delete()
+    db.session.commit()
+    
+    return jsonify({'message': 'All users deleted'}), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
