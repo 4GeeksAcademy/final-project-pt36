@@ -6,20 +6,24 @@ import { Cards } from "../../component/cards";
 export const CreateMuestra = () => {
 
 	const data = [
-		{ img:"",
-		title: "Create Project",
-		 text:"Crea un proyecto", 
-		 buttonText: "Create",
-		 url: "/dashboard/createproject"
+		
+		{
+			img: "",
+			title: "Agregar tarea por usuario",
+			text: "Agrega una tarea a un usuario",
+			buttonText: "Agregar",
+			url: "/dashboard/createproject"
 		},
-		{ img:"",
-		title: "Asignar tareas a usuarios",
-		 text:"Una vez creado el proyecto asigna muestreos a los usuarios", 
-		 buttonText: "Asignar",
-		 url: "/dashboard/assigntask"
+		{
+			img: "",
+			title: "Asignar tareas a usuarios",
+			text: "Una vez creado el proyecto asigna muestreos a los usuarios",
+			buttonText: "Asignar",
+			url: "/dashboard/assigntask"
 		},
-	,	
-			
+
+
+
 	]
 
 	return (

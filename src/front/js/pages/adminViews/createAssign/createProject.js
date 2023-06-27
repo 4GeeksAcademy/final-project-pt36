@@ -1,6 +1,39 @@
 import React from "react";
+import { useForm } from "../../../../hooks/useform";
 
 export const CreateProject = () => {
+    
+    const [inputValues, handleInputChange] = useForm({
+        name: "",
+        direction: "",
+        user_id: "",
+    })
+
+    
+    const { name, direction, user_id} = inputValues
+
+    const createUserTaks = async () => {
+        try {
+            await fetch (
+                "https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/proyecto",
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        name: name,
+                        direction: direction,
+                        user_id: user_id
+                    
+                }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+          } catch (error) {
+            console.log("error", error);
+          };
+        }
+
 
     return (
         
@@ -16,21 +49,30 @@ export const CreateProject = () => {
                                             <form className="mx-1 mx-md-4">
                                                 <div className="d-flex flex-row align-items-center mb-4">
                                                     <div className="form-outline flex-fill mb-0">
-                                                        <input type="text" id="form3Example1c" className="form-control" />
+                                                        <input type="text"  id="form3Example1c" className="form-control" name="name" value={name} onChange={handleInputChange} />
                                                         <label className="form-label" for="form3Example1c">Project Name</label>
                                                     </div>
                                                 </div>
                                                 <div className="d-flex flex-row align-items-center mb-4">
 
                                                     <div className="form-outline flex-fill mb-0">
-                                                        <input type="text" id="form3Example1c" className="form-control" />
+                                                        <input type="text" id="form3Example1c" className="form-control" name="direction" value={direction} onChange={handleInputChange} />
                                                         <label className="form-label" for="form3Example1c">Ubication</label>
                                                     </div>
+                                                    
                                                 </div>
+                                            <div className="d-flex flex-row align-items-center mb-4">
+
+                                                <div className="form-outline flex-fill mb-0">
+                                                    <input type="text" name="user_id" value={user_id} onChange={handleInputChange} id="form3Example1c" className="form-control" />
+                                                    <label className="form-label" for="form3Example1c">Usuario</label>
+                                                </div>
+
+                                            </div>
                                                 <div className="d-flex flex-row align-items-center mb-4">
                                                 </div>
                                                 <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                                    <button type="button" className="btn btn-primary btn-lg">Create</button>
+                                                    <button type="button" className="btn btn-primary btn-lg" onClick={createUserTaks}>Create</button>
                                                 </div>
 
                                             </form>
