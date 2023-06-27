@@ -86,7 +86,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
-			postSample: async({user_id, proyecto, ubication, ubication_image, area, specimen, quality_specimen, image_specimen, aditional_comments})=>{
+			postSample: async({ ubication_image, area, specimen, quality_specimen, image_specimen, aditional_comments})=>{
 				try {
 					const response = await fetch(
 					  "https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/muestra",
@@ -96,9 +96,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						  "Content-Type": "application/json",
 						},
 						body: JSON.stringify({
-							user_id:user_id,
-							proyecto:proyecto,
-							project_name:project_name,
 							ubication:ubication,
 							ubication_image:ubication_image,
 							area:area,
@@ -121,14 +118,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
-			delete: async({url})=> {
+			delete: async({id})=> {
 				const store = getStore();
 				try{
-					const response = await fetch({url},
-						 {methods: "DELETE"})
+					const response = await fetch(`https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/muestra/${id}`,
+						 {methods: "DELETE"}
+						)
 						 if (response.ok){
-							const data = await response.json();
-							setStore({del: data})
+							alert("muestra borrada")
 						}
 				}
 				catch (error){

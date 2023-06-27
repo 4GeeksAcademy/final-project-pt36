@@ -316,6 +316,49 @@ def delete_all_proyectos():
         db.session.rollback()
         return jsonify({'message': 'Error al borrar los proyectos', 'error': str(e)}), 500
 
+@app.route('/user/<int:user_id>/muestras', methods=['GET'])
+def get_user_muestras(user_id):
+    # Verificar si el usuario existe en la base de datos
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify({'message': 'El usuario no existe'}), 404
+
+    # Obtener todas las muestras asociadas al usuario
+    muestras = Muestra.query.filter_by(user_id=user_id).all()
+
+    # Serializar las muestras en una lista
+    serialized_muestras = [muestra.serialize() for muestra in muestras]
+
+    return jsonify({'muestras': serialized_muestras}), 200
+
+#Hacer PUT a una muestra por id (Actualizar)
+@app.route('/muestra/<int:muestra_id>', methods=['PUT'])
+def update_muestra(muestra_id):
+    data = request.get_json()
+
+    # Verificar si la muestra existe en la base de datos
+    muestra = Muestra.query.get(muestra_id)
+    if muestra is None:
+        return jsonify({'message': 'La muestra no existe'}), 404
+
+    # Actualizar los campos de la muestra con los datos proporcionados en el cuerpo de la solicitud
+    muestra.project_name = data.get('project_name', muestra.project_name)
+    muestra.ubication = data.get('ubication', muestra.ubication)
+    muestra.ubication_image = data.get('ubication_image', muestra.ubication_image)
+    muestra.area = data.get('area', muestra.area)
+    muestra.specimen = data.get('specimen', muestra.specimen)
+    muestra.quality_specimen = data.get('quality_specimen', muestra.quality_specimen)
+    muestra.image_specimen = data.get('image_specimen', muestra.image_specimen)
+    muestra.aditional_comments = data.get('aditional_comments', muestra.aditional_comments)
+
+    # Guardar los cambios en la base de datos
+    db.session.commit()
+
+    return jsonify({'message': 'Muestra actualizada correctamente', 'muestra': muestra.serialize()}), 200
+
+
+
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
