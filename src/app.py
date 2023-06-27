@@ -56,17 +56,7 @@ def encode_auth_token(user_id):
     except Exception as e:
         return e
 
-#Function to decode a token
-def decode_auth_token(auth_token):
-    try:
-        jwt_secret_key = app.config['JWT_SECRET_KEY']
-        payload = jwt.decode(auth_token, jwt_secret_key, algorithm='HS256')
-        return payload['sub']
-    except jwt.ExpiredSignatureError:
-        return 'Token expired. Please log in again.'
-    except jwt.InvalidTokenError:
-        return 'Invalid token. Please log in again.'
-    
+#Function to decode a token    
 def decode_auth_token(auth_token):
     try:
         jwt_secret_key = app.config['JWT_SECRET_KEY']
@@ -106,16 +96,9 @@ def serve_any_other_file(path):
 #GET USER
 @app.route('/user', methods=['GET'])
 def handle_hello():
-    auth_header = request.headers.get('Authorization')
-    if auth_header:
-        auth_token = auth_header.split(" ")[1]
-    else:
-        return jsonify(message= 'token missing'), 401
-    #Decode the token
-    id = decode_auth_token(auth_token)
-    useru = User.query.all()
-    user_list = [user.serialize() for user in useru]
-    return jsonify(useru= user_list)
+    users = User.query.all()
+    user_list = [user.serialize() for user in users]
+    return jsonify(users= user_list)
   
 # GET USER BY ID
 @app.route('/user/<string:id>', methods=['GET'])

@@ -22,8 +22,6 @@ export const CreateMuestra = () => {
 			url: "/dashboard/assigntask"
 		},
 
-
-
 	]
 
 	return (
