@@ -16,9 +16,9 @@ export const CreateMuestra = () => {
 		},
 		{
 			img: "",
-			title: "Asignar tareas a usuarios",
-			text: "Una vez creado el proyecto asigna muestreos a los usuarios",
-			buttonText: "Asignar",
+			title: "Eliminar tareas a usuarios",
+			text: "Elimina las tareas a los usuarios",
+			buttonText: "Eliminar",
 			url: "/dashboard/assigntask"
 		},
 

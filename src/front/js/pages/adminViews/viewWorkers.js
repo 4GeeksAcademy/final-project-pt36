@@ -1,31 +1,19 @@
-import React, {useEffect, useState} from "react";
-
-
-
+import React, {useContext, useEffect, useState} from "react";
+import { Context } from "../../store/appContext";
 
 
 export const ViewWorkers = () => {
-    const [user, setUser] = useState("")
-
-
+    const { store, actions } = useContext(Context)
+   
     const heading = ["name", "last Name", "email"] 
 
     useEffect(()=>{
-            try {
-                const userRequest = async () => {
-                    const resp = await fetch("https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/user")
-                    const data = await resp.json()
-                    setUser(data.users)  
-                    };
-                    userRequest();
-              } catch (error) {
-                console.log("error", error);
-              };
+      actions.loadUser()
      }, []);
 
     return (
         <>
-        <table class="table">
+        <table className="table">
           <thead>
             <tr>
               {heading.map((head, i) => (
@@ -35,8 +23,8 @@ export const ViewWorkers = () => {
             </tr>
           </thead>
           <tbody>
-              {user.length !== 0 ? (
-                user.map(({name, last_name, email}, i) =>{
+              {(
+                store.users.map(({name, last_name, email}, i) =>{
                   return (
                     <tr key={i}>
                       <td>{name}</td>
@@ -46,7 +34,7 @@ export const ViewWorkers = () => {
                     </tr>
                   )
                 }))
-                : (<div></div>)}
+                }
           </tbody>
         </table>
 
