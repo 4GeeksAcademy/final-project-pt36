@@ -324,8 +324,9 @@ def delete_user(user_id):
     if user is None:
         return jsonify({'message': 'El usuario no existe'}), 404
 
-        db.session.delete(user)
-        db.session.commit()
+    db.session.delete(user)
+    db.session.commit()
+
     return jsonify({'message': 'Usuario eliminado correctamente'}), 200
 
 
