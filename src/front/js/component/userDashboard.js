@@ -11,8 +11,6 @@ export const UserDashboard = ({user}) => {
 		text:"Cumple con las muestras asignadas.", 
 		buttonText: "Realizar",
 		url:"/dashboard/makemuestra"
-
-
 		},
 		{ 
         img:"",
@@ -20,15 +18,7 @@ export const UserDashboard = ({user}) => {
 		text: "Edita y ve tus muestras",
 		buttonText: "Ver",
 		url:"/dashboard/usergetmuestra"
-		},	
-		{ 
-        img:"",
-		title: "Tareas Pendientes",
-		text:"Completa tus muestras", 
-		buttonText: "Completar",
-		url:"/dashboard/pendingtask"
-		},	
-			
+		},		
 	]
 	return (
 		

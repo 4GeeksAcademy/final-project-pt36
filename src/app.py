@@ -335,7 +335,6 @@ def get_user_muestras(user_id):
 @app.route('/muestra/<int:muestra_id>', methods=['PUT'])
 def update_muestra(muestra_id):
     data = request.get_json()
-
     # Verificar si la muestra existe en la base de datos
     muestra = Muestra.query.get(muestra_id)
     if muestra is None:

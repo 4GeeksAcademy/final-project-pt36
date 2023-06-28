@@ -18,7 +18,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: null,
 			users: [],
 			del: null, 
-			sample: ""
+			sample: "",
+			editMuestra: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -116,6 +117,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 				  };
 				  return false
 
+			},
+
+			editarMuestra: async ({id, ubication, ubication_image, area, specimen, quality_specimen, image_specimen, aditional_comments}) => {
+				try {
+					const response = await fetch(
+					  `https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/muestra/${id}`,
+					  {
+						method: "PUT",
+						headers: {
+						  "Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							ubication:ubication,
+							ubication_image:ubication_image,
+							area:area,
+							specimen:specimen,
+							quality_specimen:quality_specimen,
+							image_specimen:image_specimen,
+							aditional_comments:aditional_comments
+						}),
+					  }
+					);
+					if (response.ok){
+						const data = await response.json()
+						setStore({edit: data});
+					}
+				  } catch (error) {
+					console.log("error", error);
+				  };
 			},
 
 			delete: async({id})=> {
