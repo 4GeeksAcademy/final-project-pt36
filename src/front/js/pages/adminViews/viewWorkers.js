@@ -11,6 +11,24 @@ export const ViewWorkers = () => {
       actions.loadUser()
      }, []);
 
+     const handledelete = async (id) => {
+      try {
+       const response = await fetch(
+          `https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/user/${id}`,
+          {
+            method: "DELETE",
+          }
+        ); if (response.ok){
+            await response.json()
+            actions.loadUser()
+        };
+      } catch (error) {
+        console.log("error", error);
+      }
+
+
+     }
+
     return (
         <>
         <table className="table">
@@ -24,13 +42,13 @@ export const ViewWorkers = () => {
           </thead>
           <tbody>
               {(
-                store.users.map(({name, last_name, email}, i) =>{
+                store.users.map(({name, last_name, email, id}, i) =>{
                   return (
                     <tr key={i}>
                       <td>{name}</td>
                       <td>{last_name}</td>
                       <td>{email}</td>
-                      <td><button className="btn btn-danger">Delete</button></td>
+                      <td><button onClick={()=>handledelete(id)} className="btn btn-danger">Delete</button></td>
                     </tr>
                   )
                 }))

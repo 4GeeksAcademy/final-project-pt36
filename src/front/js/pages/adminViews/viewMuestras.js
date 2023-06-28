@@ -15,7 +15,6 @@ export const ViewMuestras = () => {
                     const resp = await fetch("https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/muestra")
                     const data = await resp.json()
                     setMuestras(data)  
-                  
                     };
                     getMuestras();
               } catch (error) {

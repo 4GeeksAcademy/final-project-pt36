@@ -315,6 +315,19 @@ def delete_all_proyectos():
         # En caso de error, hacer rollback y devolver un mensaje de error
         db.session.rollback()
         return jsonify({'message': 'Error al borrar los proyectos', 'error': str(e)}), 500
+
+#Delete PROYECTO by id
+@app.route('/proyecto/<int:id>', methods=['DELETE'])
+def delete_prokect(id):
+    user = Proyecto.query.get(id)
+
+    if user is None:
+        return jsonify({'message': 'El Proyecto no existe'}), 404
+
+    db.session.delete(user)
+    db.session.commit()
+
+    return jsonify({'message': 'Proyecto eliminado correctamente'}), 200
     
 #Delete USER by id
 @app.route('/user/<int:user_id>', methods=['DELETE'])

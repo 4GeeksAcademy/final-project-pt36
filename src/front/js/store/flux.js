@@ -19,7 +19,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			users: [],
 			del: null, 
 			sample: "",
-			editMuestra: []
+			getMuestra: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -148,31 +148,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 				  };
 			},
 
-			delete: async({id})=> {
-				const store = getStore();
+			getSample: async()=>{
+				
 				try{
-					const response = await fetch(`https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/muestra/${id}`,
-						 {methods: "DELETE"}
-						)
-						 if (response.ok){
-							alert("muestra borrada")
-						}
+					const response = await fetch("https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/muestra", {
+					  });
+					if (response.ok){
+						const data = await response.json();
+						setStore({gestSample: data})
+					}
 				}
-				catch (error){
+				catch(error){
 					console.log(error)
 				}
-
+				
 			},
 
-
-
-	
-
-
-
-
-
-
+		
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
