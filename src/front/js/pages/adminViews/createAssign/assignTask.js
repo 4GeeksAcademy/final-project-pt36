@@ -1,26 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { Context } from "../../../store/appContext";
 
 
 export const AssignTask = () => {
     
-  const [muestras, setMuestras] = useState([])
-
-  const heading= ["Proyecto","id", "area" , "Especie", "imagen", "Calidad", "Ubicacion", "imagen ubicacion" , "Comentarios", "Editar"]
-
+  const { store, actions } = useContext(Context)
+  
+  const heading= ["Proyecto","id", "area" , "Especie", "imagen", "Calidad", "Ubicacion", "imagen ubicacion" , "Comentarios", "Eliminar"]
 
   useEffect(()=>{
-    try {
-        const getMuestras = async () => {
-            const resp = await fetch("https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/muestra")
-            const data = await resp.json()
-            setMuestras(data)  
-          
-            };
-            getMuestras();
-      } catch (error) {
-        console.log("error", error);
-      };
+    actions.getSample()
 }, []);
+
+
+const handledelete = async (id) => {
+  try {
+   const response = await fetch(
+      `https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/muestra/${id}`,
+      {
+        method: "DELETE",
+      }
+    ); if (response.ok){
+        await response.json()
+        actions.getSample()
+    };
+  } catch (error) {
+    console.log("error", error);
+  }
+
+
+ }
+  console.log(store.getMuestra)
   return (
       <>
       <table class="table">
@@ -33,9 +43,9 @@ export const AssignTask = () => {
           </tr>
         </thead>
         <tbody>
-        {console.log(muestras)}
-        {muestras.length !== 0 ? (
-              muestras.map(({project_name, id, area, aditional_comments, specimen, image_specimen, quality_specimen, ubication, ubication_image}, i) =>
+   
+        {store.getMuestra.length !== 0 ? (
+              store.getMuestra.map(({project_name, id, area, aditional_comments, specimen, image_specimen, quality_specimen, ubication, ubication_image}, i) =>
            
                   <tr key={i}>
                     <td>{project_name}</td>
@@ -47,7 +57,7 @@ export const AssignTask = () => {
                     <td>{ubication}</td>
                     <td>{aditional_comments}</td>
                     <td>{ubication_image}</td>
-                    <td><button className="btn btn-danger">Eliminar Muestra</button></td>
+                    <td><button onClick={()=>handledelete(id)} className="btn btn-danger">Delete</button></td>
                   </tr>
                 )
                

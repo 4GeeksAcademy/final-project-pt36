@@ -16,7 +16,7 @@ export const CreateMuestra = () => {
 		},
 		{
 			img: "",
-			title: "Eliminar tareas a usuarios",
+			title: "Eliminar muestras de usuarios",
 			text: "Elimina las tareas a los usuarios",
 			buttonText: "Eliminar",
 			url: "/dashboard/assigntask"

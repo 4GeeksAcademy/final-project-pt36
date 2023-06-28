@@ -41,8 +41,6 @@ export const CreateProject = () => {
             actions.loadUser()
         }, [])
 
-   
-
     return (
         
         <section className="vh-100" style={{ backgroundColor: "#eee" }}>
@@ -75,7 +73,8 @@ export const CreateProject = () => {
                                                     {
                                                         store.users.map((user, i) => {
                                                             return (
-                                                               <option  value={user.user_id} key={i}>{user.rol === "2" && user.name}</option>
+                                                               <option  value={user.id} key={i}>{user.name}</option>
+                                                               
                                                     )
                                                 })
                                             }           

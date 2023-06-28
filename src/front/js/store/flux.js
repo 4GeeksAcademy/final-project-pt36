@@ -18,7 +18,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: null,
 			users: [],
 			del: null, 
-			sample: "",
+			samplePost: "",
 			getMuestra: []
 		},
 		actions: {
@@ -109,7 +109,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					)
 					if (response.ok){
 						const data = await response.json()
-						setStore({sample: data});
+						setStore({samplePost: data});
 						return true
 					}
 				  } catch (error) {
@@ -149,17 +149,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getSample: async()=>{
-				
+				const store = getStore()
 				try{
-					const response = await fetch("https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/muestra", {
-					  });
+					const response = await fetch("https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/muestra");
 					if (response.ok){
 						const data = await response.json();
-						setStore({gestSample: data})
+						setStore({getMuestra: data})
 					}
 				}
 				catch(error){
-					console.log(error)
+					console.log("error", error)
 				}
 				
 			},
