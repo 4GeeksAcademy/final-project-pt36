@@ -21,22 +21,16 @@ export const MakeMuestra = () => {
     const [selectedTask, setSelectedTask] = useState(null)
 
     const selectTask = (taskId) => {
-
         let newTasks = [...store.users]
-    
         let filteredTask = newTasks.filter((x)=> x.id == taskId)
         setSelectedTask(()=> filteredTask)
-      
     }
-
-
 
     const { ubication_image, specimen, quality_specimen, image_specimen, aditional_comments, proyecto_id} = values
 
     let storageUSer = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
-        
         if (tasks === null) {
         try{
             const getTasks = async () =>{
@@ -51,7 +45,7 @@ export const MakeMuestra = () => {
         }
     }
     }, [tasks])
-
+    
     return (
        
         <section className="vh-100" style={{ backgroundColor: "#eee" }}>
@@ -65,16 +59,21 @@ export const MakeMuestra = () => {
                                         <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Create una nueva muestra</p>
                                         {tasks !== null && 
                                         <form className="mx-1 mx-md-4">
-                                        <select onChange={(e)=>{handleInputChange(e); selectTask(e.target.value)}} name="proyecto_id" className="form-select" aria-label="Default select example">
+                                        <select onChange={(e)=>{handleInputChange(e); selectTask(e.target.value) }} name="proyecto_id" className="form-select" aria-label="Default select example">
                                             <option defaultValue>Seleccionar Proyecto</option>
                                             {
                                                 tasks.map((task, i) => {
                                                     return (
                                                         <option value={task.id} key={i}>{task.name}</option>
                                                     )
+                                                    
                                                 })
-                                            }                                          
+                                                
+                                               
+                                            }        
+                                                      
                                         </select>
+                                          
                                         <div className="d-flex flex-row align-items-center mb-4">
                                             <div className="form-outline flex-fill mb-0">
                                                 <input type="text" id="form3Example1c" className="form-control" />
