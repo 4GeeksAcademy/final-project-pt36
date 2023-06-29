@@ -49,7 +49,7 @@ export const UserGetMuestra = () => {
                       <td>{quality_specimen}</td>
                       <td>{image_specimen}</td>
                       <td>{aditional_comments}</td>
-                      <td><button className="btn btn-success">Editar</button></td>
+                      <td><button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Editar</button></td>
                     </tr>
                   )
                  
@@ -57,6 +57,28 @@ export const UserGetMuestra = () => {
                 : (<div></div>)}
         </tbody>
         </table>
+
+
+         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Terminar muestreso</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                           ¿Desea finalizar este muestreo?
+                        </div>
+                        <form>
+                          
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onClick={()=>handleChangeProjectState()}>Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
       </>
      
