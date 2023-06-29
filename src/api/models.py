@@ -56,6 +56,7 @@ class Muestra(db.Model):
     }
 class Proyecto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     name = db.Column(db.String(120), unique=False, nullable=False)
     direction = db.Column(db.String(120), unique=False, nullable=False)
     muestras = db.relationship('Muestra', backref='proyecto', lazy=True)
@@ -69,5 +70,6 @@ class Proyecto(db.Model):
             "id": self.id,
             "name": self.name,
             "direction": self.direction,
-            "user_id": self.user_id
+            "user_id": self.user_id,
+            "is_active": self.is_active
         }

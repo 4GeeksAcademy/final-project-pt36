@@ -135,7 +135,7 @@ def create_proyecto():
     if user is None:
         return jsonify({'message': 'El usuario no existe'}), 404
 
-    proyecto = Proyecto(name=name, direction=direction, user_id=user_id)
+    proyecto = Proyecto(name=name, direction=direction, user_id=user_id,  is_active = True)
     db.session.add(proyecto)
     db.session.commit()
 
@@ -382,7 +382,20 @@ def update_muestra(muestra_id):
 
     return jsonify({'message': 'Muestra actualizada correctamente', 'muestra': muestra.serialize()}), 200
 
+#PUT estado del Proyecto
+@app.route('/proyecto/<int:id>', methods=['PUT'])
+def change_state(id):
+    data = request.get_json()
 
+    proyecto = Proyecto.query.get(id)
+    if proyecto is None:
+        return jsonify({'message': 'El proyecto no existe'}), 404
+    
+    proyecto.is_active = data.get('is_active', proyecto.is_active)
+
+    db.session.commit()
+
+    return jsonify({'message': 'Estado actualizado correctamente', 'proyecto': proyecto.serialize()}), 200
 
 
 # this only runs if `$ python src/main.py` is executed
