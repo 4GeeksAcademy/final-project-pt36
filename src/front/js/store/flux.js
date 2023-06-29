@@ -97,6 +97,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						  "Content-Type": "application/json",
 						},
 						body: JSON.stringify({
+							user_id: user_id,
+							proyecto_id: proyecto_id,
 							ubication:ubication,
 							ubication_image:ubication_image,
 							area:area,

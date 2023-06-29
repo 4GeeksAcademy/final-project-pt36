@@ -10,6 +10,7 @@ export const MakeMuestra = () => {
    
 
     const [values, handleInputChange] = useForm({
+       
         ubication_image:"",
         area:"",
         specimen:"",
@@ -28,7 +29,7 @@ export const MakeMuestra = () => {
         setSelectedTask(()=> filteredTask)
     }
 
-    const { ubication_image, specimen, quality_specimen, image_specimen, aditional_comments, proyecto_id} = values
+    const { user_id, ubication_image, specimen, quality_specimen, image_specimen, aditional_comments, proyecto_id} = values
 
     let storageUSer = JSON.parse(localStorage.getItem("user"));
 
@@ -39,14 +40,48 @@ export const MakeMuestra = () => {
                 const res = await fetch(`https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/user/${storageUSer.id}/projects`)
                 const data = await res.json();
                 setTasks(data)
+                
             };
             getTasks()
         }
         catch(error){
             console.log("error", error)
         }
-    }
+    };
+
     }, [tasks])
+
+    const createSampleRequest = async () => {
+        try {
+            await fetch(
+              "https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/muestra",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                    user_id: `${storageUSer.id}`,
+                    proyecto_id: `${selectedTask[0].id}`,
+                    ubication_image:"",
+                    area:"",
+                    specimen:"",
+                    quality_specimen:"",
+                    image_specimen:"",
+                    aditional_comments:"",
+                    ubication:"",
+                    project_name:""
+
+                }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+          } catch (error) {
+            console.log("error", error);
+          };
+        }
+
+
+
     
     return (
        
@@ -68,21 +103,17 @@ export const MakeMuestra = () => {
                                                     return (
                                                         <option value={task.id} key={i}>{task.name}</option>
                                                     )
-                                                    
+                                                   
                                                 })
-                                                
+                                                  
                                                
                                             }        
-                                                  {console.log(selectedTask)}    
+                         
+                                                
                                         </select>
                                           
-                                        <div className="d-flex flex-row align-items-center mb-4">
-                                            <div className="form-outline flex-fill mb-0">
-                                                <input type="text" id="form3Example1c" className="form-control" />
-                                                <label className="form-label" htmlFor="form3Example1c">ubication</label>
-                                            </div>
-
-                                        </div>
+                                    
+                                    
                                         <div className="d-flex flex-row align-items-center mb-4">
 
                                             <div className="form-outline flex-fill mb-0">
@@ -159,7 +190,7 @@ export const MakeMuestra = () => {
                                         <div className="d-flex flex-row align-items-center mb-4">
                                         </div>
                                         <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                            <button type="button" className="btn btn-primary btn-lg">Create</button>
+                                            <button type="button" onClick={()=>createSampleRequest()} className="btn btn-primary btn-lg">Create</button>
                                         </div>
 
                                     </form>
