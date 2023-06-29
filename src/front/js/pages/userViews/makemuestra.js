@@ -59,7 +59,7 @@ export const MakeMuestra = () => {
                 method: "POST",
                 body: JSON.stringify({
                     user_id: `${storageUSer.id}`,
-                    proyecto_id: `${selectedTask[0].id}`,
+                    proyecto_id: `${selectedTask !== null ? selectedTask[0].id : ""}`,
                     project_name:`${selectedTask[0].name}`,
                     ubication:`${selectedTask[0].direction}`,
                     area:"",
@@ -79,7 +79,26 @@ export const MakeMuestra = () => {
             console.log("error", error);
           };
         }
-{console.log(selectedTask)}
+
+        const handleChangeProjectState = async () =>{
+            try{
+                fetch(`https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev/proyecto/${selectedTask[0].id}`,
+                {
+                    method: "PUT",
+                    body: JSON.stringify({
+                        is_active: false
+                    }),
+                    headers: {
+                        "Content-Type": "application/json",
+                      },
+                })
+            }
+            catch(error){
+                console.log("error", error)
+            }
+
+        }
+
     return (
        
         <section className="vh-100" style={{ backgroundColor: "#eee" }}>
@@ -97,12 +116,15 @@ export const MakeMuestra = () => {
                                             <option defaultValue>Seleccionar Proyecto</option>
                                             {
                                                 tasks.map((task, i) => {
+                                                    
                                                     return (
-                                                        <option value={task.id} key={i}>{task.name}</option>
+                                                      task.is_active && <option value={task.id} key={i}>{task.name}</option>
                                                     )                                                  
-                                                })                                        
+                                                })         
+                                                                          
                                             }        
                                         </select>
+
                                         <div className="d-flex flex-row align-items-center mb-4">
                                             <div className="form-outline flex-fill mb-0">
                                                 <input type="text" id="form3Example1c" className="form-control" />
@@ -161,18 +183,21 @@ export const MakeMuestra = () => {
                                         </div>
                                         <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                             <button type="button" onClick={()=>createSampleRequest()} className="btn btn-primary btn-lg">Create</button>
+                                            <button type="button" onClick={()=>handleChangeProjectState()} className="btn btn-primary btn-lg">Terminar muestreo</button>
                                         </div>
                                     </form>
                                         }
                                         
                                 </div>
-
+                            
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+            
         </section>
 
       

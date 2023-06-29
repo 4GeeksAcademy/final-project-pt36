@@ -29,13 +29,13 @@ export const Navbar = () => {
 				<ul class="navbar-nav">
 
 					<li class="nav-item">
-						<a className="nav-link" href="https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3000.preview.app.github.dev/login">Login</a>
+						{location.pathname === "/" && <a className="nav-link" href="https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3000.preview.app.github.dev/login">Login</a>}
 					</li>
 			
 				</ul>
 			</div>
 			<div className="ml-auto">
-					{location.pathname !== "/login" && <button onClick={logout} className="btn btn-primary">Log Out</button>}
+					{location.pathname !== "/login" && location.pathname !== "/" && <button onClick={logout} className="btn btn-primary">Log Out</button>}
 				</div>
 		</div>
 	</nav>

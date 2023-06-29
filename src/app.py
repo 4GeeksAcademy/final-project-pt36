@@ -166,7 +166,8 @@ def get_user_projects(user_id):
         serialized_project = {
             'id': project.id,
             'name': project.name,
-            'direction': project.direction
+            'direction': project.direction,
+            'is_active': project.is_active
         }
         serialized_projects.append(serialized_project)
 
