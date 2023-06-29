@@ -4,18 +4,15 @@ import { useForm } from "../../../hooks/useform";
 export const UserGetMuestra = () => {
 
   const [muestras, setMuestras] = useState([])
-  
+
   const [values, handleInputChange] = useForm({
-       
-    ubication_image:"",
-    area:"",
     specimen:"",
     quality_specimen:"",
-    image_specimen:"",
-    aditional_comments:"",
-    proyecto_id: ""
+    aditional_comments:""
 
-})
+  })
+
+  const { specimen, quality_specimen, aditional_comments } = values
 
     const heading= ["Id","Proyecto", "Ubicacion" , "Especie", "Coordenadas", "Calidad",  "imagen", "Comentarios", "Editar"]
 
@@ -45,6 +42,7 @@ export const UserGetMuestra = () => {
      }, []);
 
 
+
      const handleChangeSampleData = async (id) =>{
       try{
           fetch(`https://manolos05-ideal-xylophone-7q55p7xj9jgcp9g6-3001.preview.app.github.dev//muestra/${id}`,
@@ -65,7 +63,7 @@ export const UserGetMuestra = () => {
       }
 
   }
-
+console.log(selectedMuestra)
     return (
         <>
         <table class="table">
@@ -78,7 +76,7 @@ export const UserGetMuestra = () => {
             </tr>
           </thead>
           <tbody>
-          {console.log(muestras)}
+       
           {muestras.length !== 0 ? (
                 muestras.muestras.map(({project_name, id, area, aditional_comments, specimen, image_specimen, quality_specimen, ubication}, i) =>
              
@@ -91,7 +89,11 @@ export const UserGetMuestra = () => {
                       <td>{quality_specimen}</td>
                       <td>{image_specimen}</td>
                       <td>{aditional_comments}</td>
-                      <td><button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onChange={(e)=>{handleInputChange(e); selectMuestra(e.target.value) }}>Editar</button></td>
+                      <td><button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={(e)=>{handleInputChange(e); selectMuestra(e.target.value) }} name="id" defaultValue>Editar</button>
+                      
+                      
+                      
+                      </td>
                     </tr>
                     
                   )
@@ -115,19 +117,19 @@ export const UserGetMuestra = () => {
                         <form>
                             <div className="d-flex flex-row align-items-center mb-4">
                               <div className="form-outline flex-fill mb-0">
-                                <input type="text" id="form3Example1c" className="form-control" name="specimen"  />
+                                <input type="text" id="form3Example1c" className="form-control" name="specimen" value={specimen} onChange={handleInputChange} />
                                 <label className="form-label" htmlFor="form3Example1c">Especie</label>
                               </div>
                             </div>
                             <div className="d-flex flex-row align-items-center mb-4">
                               <div className="form-outline flex-fill mb-0">
-                                <input type="text" id="form3Example1c" className="form-control" />
+                                <input type="text" id="form3Example1c" className="form-control" name="quality_specimen" value={quality_specimen} onChange={handleInputChange} />
                                 <label className="form-label" htmlFor="form3Example1c">Calidad</label>
                               </div>
                             </div>
                             <div className="d-flex flex-row align-items-center mb-4">
                               <div className="form-outline flex-fill mb-0">
-                                <input type="text" id="form3Example1c" className="form-control" />
+                                <input type="text" id="form3Example1c" className="form-control" name="aditional_comments" value={aditional_comments} onChange={handleInputChange}/>
                                 <label className="form-label" htmlFor="form3Example1c">Comentarios</label>
                               </div>
                             </div>
