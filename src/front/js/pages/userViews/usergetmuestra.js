@@ -5,7 +5,7 @@ export const UserGetMuestra = () => {
 
   const [muestras, setMuestras] = useState([])
 
-    const heading= ["Proyecto","id", "area" , "Especie", "imagen", "Calidad", "Ubicacion", "Comentarios", "Editar"]
+    const heading= ["Id","Proyecto", "Ubicacion" , "Especie", "Coordenadas", "Calidad",  "imagen", "Comentarios", "Editar"]
 
 
     let storageUSer = JSON.parse(localStorage.getItem("user"));
@@ -41,13 +41,13 @@ export const UserGetMuestra = () => {
                 muestras.muestras.map(({project_name, id, area, aditional_comments, specimen, image_specimen, quality_specimen, ubication}, i) =>
              
                     <tr key={i}>
-                      <td>{project_name}</td>
                       <td>{id}</td>
-                      <td>{area}</td>
-                      <td>{specimen}</td>
-                      <td>{image_specimen}</td>
-                      <td>{quality_specimen}</td>
+                      <td>{project_name}</td>
                       <td>{ubication}</td>
+                      <td>{specimen}</td>
+                      <td>{area}</td>
+                      <td>{quality_specimen}</td>
+                      <td>{image_specimen}</td>
                       <td>{aditional_comments}</td>
                       <td><button className="btn btn-success">Editar</button></td>
                     </tr>

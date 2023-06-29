@@ -60,14 +60,14 @@ export const MakeMuestra = () => {
                 body: JSON.stringify({
                     user_id: `${storageUSer.id}`,
                     proyecto_id: `${selectedTask[0].id}`,
-                    ubication_image:"",
+                    project_name:`${selectedTask[0].name}`,
+                    ubication:`${selectedTask[0].direction}`,
                     area:"",
+                    ubication_image:"",
                     specimen:"",
                     quality_specimen:"",
                     image_specimen:"",
                     aditional_comments:"",
-                    ubication:"",
-                    project_name:""
 
                 }),
                 headers: {
@@ -79,10 +79,7 @@ export const MakeMuestra = () => {
             console.log("error", error);
           };
         }
-
-
-
-    
+{console.log(selectedTask)}
     return (
        
         <section className="vh-100" style={{ backgroundColor: "#eee" }}>
@@ -102,102 +99,73 @@ export const MakeMuestra = () => {
                                                 tasks.map((task, i) => {
                                                     return (
                                                         <option value={task.id} key={i}>{task.name}</option>
-                                                    )
-                                                   
-                                                })
-                                                  
-                                               
+                                                    )                                                  
+                                                })                                        
                                             }        
-                         
-                                                
                                         </select>
-                                          
-                                    
-                                    
                                         <div className="d-flex flex-row align-items-center mb-4">
-
                                             <div className="form-outline flex-fill mb-0">
                                                 <input type="text" id="form3Example1c" className="form-control" />
                                                 <label className="form-label" htmlFor="form3Example1c">ubication</label>
                                             </div>
-
                                         </div>
                                         <div className="d-flex flex-row align-items-center mb-4">
-
                                             <div className="form-outline flex-fill mb-0">
                                                 <input type="text" id="form3Example1c" className="form-control" />
                                                 <label className="form-label" htmlFor="form3Example1c">ubication</label>
                                             </div>
-
                                         </div>
                                         <div className="d-flex flex-row align-items-center mb-4">
-
                                             <div className="form-outline flex-fill mb-0">
                                                 <input type="text" id="form3Example1c" className="form-control" />
                                                 <label className="form-label" htmlFor="form3Example1c">user_id</label>
                                             </div>
-
                                         </div>
                                         <div className="d-flex flex-row align-items-center mb-4">
-
                                             <div className="form-outline flex-fill mb-0">
                                                 <input type="text" id="form3Example1c" className="form-control" />
                                                 <label className="form-label" htmlFor="form3Example1c">ubication_image</label>
                                             </div>
-
                                         </div>
                                         <div className="d-flex flex-row align-items-center mb-4">
-
                                             <div className="form-outline flex-fill mb-0">
                                                 <input type="text" id="form3Example1c" className="form-control" />
                                                 <label className="form-label" htmlFor="form3Example1c">area</label>
                                             </div>
-
                                         </div>
                                         <div className="d-flex flex-row align-items-center mb-4">
-
                                             <div className="form-outline flex-fill mb-0">
                                                 <input type="text" id="form3Example1c" className="form-control" />
                                                 <label className="form-label" htmlFor="form3Example1c">specimen</label>
                                             </div>
-
                                         </div>
                                         <div className="d-flex flex-row align-items-center mb-4">
-
                                             <div className="form-outline flex-fill mb-0">
                                                 <input type="text" id="form3Example1c" className="form-control" />
                                                 <label className="form-label" htmlFor="form3Example1c">quality_specimen</label>
                                             </div>
-
                                         </div>
                                         <div className="d-flex flex-row align-items-center mb-4">
-
                                             <div className="form-outline flex-fill mb-0">
                                                 <input type="text" id="form3Example1c" className="form-control" />
                                                 <label className="form-label" htmlFor="form3Example1c">image_specimen</label>
                                             </div>
-
                                         </div>
                                         <div className="d-flex flex-row align-items-center mb-4">
-
                                             <div className="form-outline flex-fill mb-0">
                                                 <input type="textarea" id="form3Example1c" className="form-control" />
                                                 <label className="form-label" htmlFor="form3Example1c">aditional_comments</label>
                                             </div>
-
                                         </div>
-
                                         <div className="d-flex flex-row align-items-center mb-4">
                                         </div>
                                         <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                             <button type="button" onClick={()=>createSampleRequest()} className="btn btn-primary btn-lg">Create</button>
                                         </div>
-
                                     </form>
-
                                         }
                                         
-                                    </div>
+                                </div>
 
                                 </div>
                             </div>
