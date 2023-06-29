@@ -7,6 +7,8 @@ export const MakeMuestra = () => {
     const { store, actions } = useContext(Context)
     const [tasks, setTasks] = useState(null);
 
+   
+
     const [values, handleInputChange] = useForm({
         ubication_image:"",
         area:"",
@@ -21,7 +23,7 @@ export const MakeMuestra = () => {
     const [selectedTask, setSelectedTask] = useState(null)
 
     const selectTask = (taskId) => {
-        let newTasks = [...store.users]
+        let newTasks = [...tasks]
         let filteredTask = newTasks.filter((x)=> x.id == taskId)
         setSelectedTask(()=> filteredTask)
     }
@@ -71,7 +73,7 @@ export const MakeMuestra = () => {
                                                 
                                                
                                             }        
-                                                      
+                                                  {console.log(selectedTask)}    
                                         </select>
                                           
                                         <div className="d-flex flex-row align-items-center mb-4">
