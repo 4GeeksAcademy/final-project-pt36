@@ -369,13 +369,8 @@ def update_muestra(muestra_id):
         return jsonify({'message': 'La muestra no existe'}), 404
 
     # Actualizar los campos de la muestra con los datos proporcionados en el cuerpo de la solicitud
-    muestra.project_name = data.get('project_name', muestra.project_name)
-    muestra.ubication = data.get('ubication', muestra.ubication)
-    muestra.ubication_image = data.get('ubication_image', muestra.ubication_image)
-    muestra.area = data.get('area', muestra.area)
     muestra.specimen = data.get('specimen', muestra.specimen)
     muestra.quality_specimen = data.get('quality_specimen', muestra.quality_specimen)
-    muestra.image_specimen = data.get('image_specimen', muestra.image_specimen)
     muestra.aditional_comments = data.get('aditional_comments', muestra.aditional_comments)
 
     # Guardar los cambios en la base de datos
