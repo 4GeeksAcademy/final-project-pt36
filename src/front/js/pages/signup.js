@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "../../hooks/useform";
+import { Link } from "react-router-dom";
 
 
 export const Signup = () =>  {
@@ -111,10 +112,11 @@ export const Signup = () =>  {
                                                         <label className="form-label" for="form3Example4cd">Repeat your password</label>
                                                     </div>
                                                 </div>
-                                
+                                                <Link to="/login"> 
                                                 <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                                    <button type="button" className="btn btn-primary btn-lg" onClick={createUserRequest}>Register</button>
+                                                    <button type="button" className="btn btn-primary btn-lg"  onClick={createUserRequest}>Register</button>
                                                 </div>
+                                                </Link>
 
                                             </form>
 

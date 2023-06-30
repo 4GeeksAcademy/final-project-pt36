@@ -7,6 +7,23 @@ export const MakeMuestra = () => {
     const { store, actions } = useContext(Context)
     const [tasks, setTasks] = useState(null);
 
+    const [coordinates, setCoordinates] = useState(null);
+    const getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const { latitude, longitude } = position.coords;
+                    setCoordinates([latitude, longitude] );
+                },
+                error => {
+                    console.log(error);
+                }
+            );
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
+    };
+
    
 
     const [values, handleInputChange] = useForm({
@@ -29,7 +46,9 @@ export const MakeMuestra = () => {
         setSelectedTask(()=> filteredTask)
     }
 
-    const { user_id, ubication_image, specimen, quality_specimen, image_specimen, aditional_comments, proyecto_id} = values
+    const { ubication_image, specimen, quality_specimen, image_specimen, aditional_comments} = values;
+
+    const estado = [{val: "Conservada", id: 1}, {val:"Ligeramente afectada",  id: 2}, {val: "Mal estado", id: 3}]; 
 
     let storageUSer = JSON.parse(localStorage.getItem("user"));
 
@@ -48,8 +67,11 @@ export const MakeMuestra = () => {
             console.log("error", error)
         }
     };
+    getLocation();
 
     }, [tasks])
+
+
 
     const createSampleRequest = async () => {
         try {
@@ -62,12 +84,12 @@ export const MakeMuestra = () => {
                     proyecto_id: `${selectedTask !== null ? selectedTask[0].id : ""}`,
                     project_name:`${selectedTask[0].name}`,
                     ubication:`${selectedTask[0].direction}`,
-                    area:"",
+                    area: `${coordinates}`,
                     ubication_image:"",
-                    specimen:"",
-                    quality_specimen:"",
+                    specimen: specimen,
+                    quality_specimen: quality_specimen,
                     image_specimen:"",
-                    aditional_comments:"",
+                    aditional_comments:aditional_comments,
 
                 }),
                 headers: {
@@ -112,79 +134,70 @@ export const MakeMuestra = () => {
                                         <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Create una nueva muestra</p>
                                         {tasks !== null && 
                                         <form className="mx-1 mx-md-4">
-                                        <select onChange={(e)=>{handleInputChange(e); selectTask(e.target.value) }} name="proyecto_id" className="form-select" aria-label="Default select example">
-                                            <option defaultValue>Seleccionar Proyecto</option>
-                                            {
-                                                tasks.map((task, i) => {
-                                                    
-                                                    return (
-                                                      task.is_active && <option value={task.id} key={i}>{task.name}</option>
-                                                    )                                                  
-                                                })         
-                                                                          
-                                            }        
-                                        </select>
+                                             <div className="d-flex flex-row align-items-center mb-4">
+                                                    <div className="form-outline flex-fill mb-0">
+																										<select onChange={(e)=>{handleInputChange(e); selectTask(e.target.value) }} name="proyecto_id" className="form-select" aria-label="Default select example">
+                                                    <option defaultValue>Seleccionar Proyecto</option>
+                                                    {
+                                                        tasks.map((task, i) => {
+                                                            
+                                                            return (
+                                                            task.is_active && <option value={task.id} key={i}>{task.name}</option>
+                                                            )                                                  
+                                                        })                                                                                
+                                                    }        
+                                                </select>
+																								<label className="form-label" htmlFor="form3Example1c">Seleccionar el muestreo correspondiente</label>
 
+
+																										</div>
+                                               
+                                                </div>
+                                          <div className="d-flex flex-row align-items-center mb-4">
+                                            <div className="form-outline flex-fill mb-0">
+                                                <input type="text" id="form3Example1c" className="form-control" name="specimen" value={specimen} onChange={handleInputChange} />
+                                                <label className="form-label" htmlFor="form3Example1c">Nombre de la especie</label>
+                                            </div>
+                                        </div>
+                                   <div className="d-flex flex-row align-items-center mb-4">
+                                            <div className="form-outline flex-fill mb-0">
+                                            <select onChange={handleInputChange} name="quality_specimen" className="form-select" aria-label="Default select example">
+                                                    <option defaultValue>Seleccionar Estado de la Muestra</option>
+                                                    {
+                                                        estado.map(({val, id}, i) => {
+                                                            return (
+                                                              <option  value={val} key={i}>{val}</option>
+                                                               
+                                                    )
+                                                })
+                                            }           
+                                                </select>
+																								<label className="form-label" htmlFor="form3Example1c">Seleccionar el estado de la muestra</label>
+                                            </div>
+                                        </div>
+                                      
                                         <div className="d-flex flex-row align-items-center mb-4">
                                             <div className="form-outline flex-fill mb-0">
                                                 <input type="text" id="form3Example1c" className="form-control" />
-                                                <label className="form-label" htmlFor="form3Example1c">ubication</label>
+                                                <label className="form-label" htmlFor="form3Example1c">Imagen</label>
                                             </div>
                                         </div>
                                         <div className="d-flex flex-row align-items-center mb-4">
                                             <div className="form-outline flex-fill mb-0">
-                                                <input type="text" id="form3Example1c" className="form-control" />
-                                                <label className="form-label" htmlFor="form3Example1c">ubication</label>
+                                                <textarea  type="text" id="form3Example1c" className="form-control" name="aditional_comments" value={aditional_comments} onChange={handleInputChange} />
+                                                <label className="form-label" htmlFor="form3Example1c">Comentarios adicionales</label>
                                             </div>
                                         </div>
+                                       
                                         <div className="d-flex flex-row align-items-center mb-4">
-                                            <div className="form-outline flex-fill mb-0">
-                                                <input type="text" id="form3Example1c" className="form-control" />
-                                                <label className="form-label" htmlFor="form3Example1c">user_id</label>
-                                            </div>
+																				<div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                            <button type="button"  className="btn btn-primary btn-lg"  data-bs-toggle="modal"  data-bs-target="#staticBackdrop1">Create</button>
+																				
+																				<div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4"></div>
+                                            <button type="button"  className="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Terminar muestreo</button>
+																				</div>
                                         </div>
-                                        <div className="d-flex flex-row align-items-center mb-4">
-                                            <div className="form-outline flex-fill mb-0">
-                                                <input type="text" id="form3Example1c" className="form-control" />
-                                                <label className="form-label" htmlFor="form3Example1c">ubication_image</label>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex flex-row align-items-center mb-4">
-                                            <div className="form-outline flex-fill mb-0">
-                                                <input type="text" id="form3Example1c" className="form-control" />
-                                                <label className="form-label" htmlFor="form3Example1c">area</label>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex flex-row align-items-center mb-4">
-                                            <div className="form-outline flex-fill mb-0">
-                                                <input type="text" id="form3Example1c" className="form-control" />
-                                                <label className="form-label" htmlFor="form3Example1c">specimen</label>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex flex-row align-items-center mb-4">
-                                            <div className="form-outline flex-fill mb-0">
-                                                <input type="text" id="form3Example1c" className="form-control" />
-                                                <label className="form-label" htmlFor="form3Example1c">quality_specimen</label>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex flex-row align-items-center mb-4">
-                                            <div className="form-outline flex-fill mb-0">
-                                                <input type="text" id="form3Example1c" className="form-control" />
-                                                <label className="form-label" htmlFor="form3Example1c">image_specimen</label>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex flex-row align-items-center mb-4">
-                                            <div className="form-outline flex-fill mb-0">
-                                                <input type="textarea" id="form3Example1c" className="form-control" />
-                                                <label className="form-label" htmlFor="form3Example1c">aditional_comments</label>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex flex-row align-items-center mb-4">
-                                        </div>
-                                        <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                            <button type="button" onClick={()=>createSampleRequest()} className="btn btn-primary btn-lg">Create</button>
-                                            <button type="button"  className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Terminar muestreo</button>
-                                        </div>
+                                       
                                     </form>
                                         }
                                         
@@ -198,19 +211,38 @@ export const MakeMuestra = () => {
                 </div>
             </div>
      
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Terminar muestreso</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="staticBackdropLabel">Terminar muestreso</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                            ¿Desea finalizar este muestreo?
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onClick={()=>handleChangeProjectState()}>Confirmar</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" className="btn btn-primary" onClick={()=>handleChangeProjectState()}>Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+						<div className="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="staticBackdropLabel">Confirnar la muestra</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                           Confirmar la muestra
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" className="btn btn-primary" onClick={()=>createSampleRequest()} data-bs-dismiss="modal">Confirmar</button>
                         </div>
                     </div>
                 </div>

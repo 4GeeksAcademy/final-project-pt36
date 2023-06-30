@@ -72,8 +72,6 @@ export const Login = () => {
                                                 </Link>
                                             </p>
 
-                                            <a href="#!" className="small text-muted">Terms of use.</a>
-                                            <a href="#!" className="small text-muted">Privacy policy</a>
                                         </form>
 
                                     </div>
